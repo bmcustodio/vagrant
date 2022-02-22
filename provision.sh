@@ -1,11 +1,25 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 ARCH="$(dpkg --print-architecture)"
 
+function install_aws_cli() {
+  pip install --upgrade awscli
+}
+
+function install_aws_iam_authenticator() {
+  curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
+  chmod a+x ./aws-iam-authenticator
+  sudo mv ./aws-iam-authenticator /usr/local/bin
+}
+
+function install_azure_cli() {
+  curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+}
+
 function install_chezmoi() {
-  curl -fsSLo chezmoi.deb https://github.com/twpayne/chezmoi/releases/download/v2.9.1/chezmoi_2.9.1_linux_amd64.deb
+  curl -fsSLo chezmoi.deb https://github.com/twpayne/chezmoi/releases/download/v2.12.1/chezmoi_2.12.1_linux_amd64.deb
   sudo apt install --yes ./chezmoi.deb
 }
 
@@ -32,6 +46,17 @@ function install_go() {
   sudo apt install --yes golang-go
 }
 
+function install_google_cloud_sdk() {
+  CLOUD_GOOGLE_KEYRING="/usr/share/keyrings/cloud.google.gpg"
+  sudo rm -f "${CLOUD_GOOGLE_KEYRING}"
+  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring "${CLOUD_GOOGLE_KEYRING}" add -
+  cat <<EOF | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list > /dev/null
+deb [arch=${ARCH} signed-by=${CLOUD_GOOGLE_KEYRING}] https://packages.cloud.google.com/apt cloud-sdk main
+EOF
+  sudo apt update
+  sudo apt install --yes google-cloud-sdk
+}
+
 function install_helm() {
   curl -fsSL -o helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
   chmod 700 helm.sh
@@ -39,7 +64,7 @@ function install_helm() {
 }
 
 function install_k9s() {
-  curl -fsSLo k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.25.6/k9s_Linux_x86_64.tar.gz
+  curl -fsSLo k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_x86_64.tar.gz
   sudo tar xzvfC k9s.tar.gz /usr/local/bin
 }
 
@@ -85,7 +110,7 @@ function install_oh_my_zsh() {
 }
 
 function install_terraform() {
-  curl -fsSLo terraform.zip https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
+  curl -fsSLo terraform.zip https://releases.hashicorp.com/terraform/1.1.6/terraform_1.1.6_linux_amd64.zip
   unzip terraform.zip
   sudo mv terraform /usr/local/bin
 }
@@ -114,13 +139,17 @@ export PATH="${HOME}/bin:${PATH}"
 # Install updates and basic stuff.
 sudo apt update
 sudo apt full-upgrade --yes
-sudo apt install --yes autojump build-essential git vim unzip zsh
+sudo apt install --yes autojump build-essential git python3-pip unzip zsh
 
 # Install utils.
+install_aws_cli
+install_aws_iam_authenticator
+install_azure_cli
 install_chezmoi
 install_cilium_cli
 install_docker
 install_go
+install_google_cloud_sdk
 install_helm
 install_k9s
 install_kind
