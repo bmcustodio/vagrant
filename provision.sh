@@ -19,12 +19,12 @@ function install_azure_cli() {
 }
 
 function install_chezmoi() {
-  curl -fsSLo chezmoi.deb https://github.com/twpayne/chezmoi/releases/download/v2.12.1/chezmoi_2.12.1_linux_amd64.deb
+  curl -fsSLo chezmoi.deb https://github.com/twpayne/chezmoi/releases/download/v2.14.0/chezmoi_2.15.1_linux_amd64.deb
   sudo apt install --yes ./chezmoi.deb
 }
 
 function install_cilium_cli() {
-  curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}
+  curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/v0.11.1/download/cilium-linux-amd64.tar.gz{,.sha256sum}
   sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
   sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
 }
@@ -69,7 +69,7 @@ function install_k9s() {
 }
 
 function install_kind() {
-  curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+  curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.12.0/kind-linux-amd64
   chmod +x ./kind
   sudo mv ./kind /usr/local/bin/kind
 }
@@ -110,7 +110,7 @@ function install_oh_my_zsh() {
 }
 
 function install_terraform() {
-  curl -fsSLo terraform.zip https://releases.hashicorp.com/terraform/1.1.6/terraform_1.1.6_linux_amd64.zip
+  curl -fsSLo terraform.zip https://releases.hashicorp.com/terraform/1.1.8/terraform_1.1.8_linux_amd64.zip
   unzip terraform.zip
   sudo mv terraform /usr/local/bin
 }
