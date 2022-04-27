@@ -19,14 +19,14 @@ function install_azure_cli() {
 }
 
 function install_chezmoi() {
-  curl -fsSLo chezmoi.deb https://github.com/twpayne/chezmoi/releases/download/v2.14.0/chezmoi_2.15.1_linux_amd64.deb
+  curl -fsSLo chezmoi.deb https://github.com/twpayne/chezmoi/releases/download/v2.15.1/chezmoi_2.15.1_linux_amd64.deb
   sudo apt install --yes ./chezmoi.deb
 }
 
 function install_cilium_cli() {
-  curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/v0.11.1/download/cilium-linux-amd64.tar.gz{,.sha256sum}
-  sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
+  curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/v0.11.2/cilium-linux-amd64.tar.gz
   sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
+  rm cilium-linux-amd64.tar.gz
 }
 
 function install_docker() {
@@ -41,7 +41,6 @@ EOF
 }
 
 function install_go() {
-  sudo add-apt-repository ppa:longsleep/golang-backports
   sudo apt update
   sudo apt install --yes golang-go
 }
@@ -97,7 +96,6 @@ function install_minikube() {
 }
 
 function install_neovim() {
-  sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt update
   sudo apt install --yes neovim
 }
@@ -110,7 +108,7 @@ function install_oh_my_zsh() {
 }
 
 function install_terraform() {
-  curl -fsSLo terraform.zip https://releases.hashicorp.com/terraform/1.1.8/terraform_1.1.8_linux_amd64.zip
+  curl -fsSLo terraform.zip https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip
   unzip terraform.zip
   sudo mv terraform /usr/local/bin
 }
