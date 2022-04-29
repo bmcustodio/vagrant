@@ -9,7 +9,8 @@ function install_aws_cli() {
 }
 
 function install_aws_iam_authenticator() {
-  curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
+  VERSION="1.21.2/2021-07-05"
+  curl -o aws-iam-authenticator "https://amazon-eks.s3.us-west-2.amazonaws.com/${VERSION}/bin/linux/amd64/aws-iam-authenticator"
   chmod a+x ./aws-iam-authenticator
   sudo mv ./aws-iam-authenticator /usr/local/bin
 }
@@ -19,12 +20,14 @@ function install_azure_cli() {
 }
 
 function install_chezmoi() {
-  curl -fsSLo chezmoi.deb https://github.com/twpayne/chezmoi/releases/download/v2.15.1/chezmoi_2.15.1_linux_amd64.deb
+  VERSION="2.15.1"
+  curl -fsSLo chezmoi.deb "https://github.com/twpayne/chezmoi/releases/download/v${VERSION}/chezmoi_${VERSION}_linux_amd64.deb"
   sudo apt install --yes ./chezmoi.deb
 }
 
 function install_cilium_cli() {
-  curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/v0.11.2/cilium-linux-amd64.tar.gz
+  VERSION="0.11.2"
+  curl -L --remote-name-all "https://github.com/cilium/cilium-cli/releases/download/v${VERSION}/cilium-linux-amd64.tar.gz"
   sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
   rm cilium-linux-amd64.tar.gz
 }
@@ -63,12 +66,14 @@ function install_helm() {
 }
 
 function install_k9s() {
-  curl -fsSLo k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_x86_64.tar.gz
+  VERSION="0.25.18"
+  curl -fsSLo k9s.tar.gz "https://github.com/derailed/k9s/releases/download/v${VERSION}/k9s_Linux_x86_64.tar.gz"
   sudo tar xzvfC k9s.tar.gz /usr/local/bin
 }
 
 function install_kind() {
-  curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.12.0/kind-linux-amd64
+  VERSION="0.12.0"
+  curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v${VERSION}/kind-linux-amd64"
   chmod +x ./kind
   sudo mv ./kind /usr/local/bin/kind
 }
@@ -108,7 +113,8 @@ function install_oh_my_zsh() {
 }
 
 function install_terraform() {
-  curl -fsSLo terraform.zip https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip
+  VERSION="1.1.9"
+  curl -fsSLo terraform.zip "https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip"
   unzip terraform.zip
   sudo mv terraform /usr/local/bin
 }
