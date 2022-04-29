@@ -125,6 +125,13 @@ function install_tpm() {
   git clone https://github.com/tmux-plugins/tpm "${TARGET}"
 }
 
+function mount_bpffs() {
+  TARGET=/sys/fs/bpf
+  if [[ -d "${TARGET}" ]]; then
+    sudo mount bpffs "${TARGET}" -t bpf
+  fi
+}
+
 DIR="$(mktemp -d)"
 pushd "${DIR}" > /dev/null
 
@@ -143,7 +150,7 @@ export PATH="${HOME}/bin:${PATH}"
 # Install updates and basic stuff.
 sudo apt update
 sudo apt full-upgrade --yes
-sudo apt install --yes autojump build-essential git python3-pip unzip zsh
+sudo apt install --yes autojump build-essential git "linux-tools-$(uname -r)" python3-pip unzip zsh
 
 # Install utils.
 install_aws_cli
@@ -164,6 +171,9 @@ install_neovim
 install_oh_my_zsh
 install_terraform
 install_tpm
+
+# Mount the BPF filesystem.
+mount_bpffs
 
 chezmoi init --apply --branch main --force bmcustodio
 sudo usermod -aG docker "$(whoami)"
